@@ -1,0 +1,8 @@
+ioc.c:19:6:InitConsola	8	static
+ioc.c:36:5:ServicioLeer	32	static
+ioc.c:46:5:ServicioEscribir	32	static
+ioc.c:56:6:ServicioTicks	16	static
+ioc.c:60:5:Leer	24	static,ignoring_inline_asm
+ioc.c:68:5:Escribir	24	static,ignoring_inline_asm
+ioc.c:79:6:Ticks	16	static,ignoring_inline_asm
+ioc.c:85:6:USART3_IRQHandler	8	static
