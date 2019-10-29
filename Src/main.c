@@ -21,9 +21,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "eth.h"
+#include "tim.h"
 #include "usart.h"
 #include "usb_otg.h"
 #include "gpio.h"
+#include <stdbool.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -33,6 +35,9 @@ int Escribir(int a,char* b,int t);
 uint32_t Ticks();
 uint32_t leerNum();
 uint32_t numTicks();
+void InitPWM();
+void DutyCycle(uint16_t pulsos);
+void StopPWM();
 char* itoa(int, char*, int);
 /* USER CODE END Includes */
 
@@ -125,8 +130,11 @@ int main(void)
   MX_ETH_Init();
   MX_USB_OTG_FS_PCD_Init();
   MX_USART3_UART_Init();
+  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  //Iniciando consola
+
+
+ /* //Iniciando consola
   InitConsola();
   //Algunos mensajes de inicio del kernel
   Escribir(1, "Iniciando el Kernel\n\r", 21);
@@ -150,13 +158,36 @@ int main(void)
   uint32_t numberOfTicks = Ticks();
   itoa(numberOfTicks, ticks, 10);
   Escribir(1, "\n\rLa cantidad de ticks es: ", 27);
-  Escribir(1, ticks, sizeof(numberOfTicks)/sizeof(char));
+  Escribir(1, ticks, sizeof(numberOfTicks)/sizeof(char));*/
+  InitPWM();
+  uint16_t pulse = 100;
+  bool pressed = false;
+  bool flag = false;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while (1) {
+	  GPIO_PinState userButton = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
+	  if (userButton && !pressed) {
+		  pressed = true;
+		  DutyCycle(pulse);
+		  if (flag) {
+	  		pulse -= 100;
+	  	  } else {
+	  		pulse += 100;
+	  	  }
+      }
+
+  	  if (pulse >= htim1.Init.Period) {
+ 		flag = true;
+	  } else if(pulse <= 0){
+		flag = false;
+	  }
+
+	  if (!userButton) {
+		 pressed = false;
+	  }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

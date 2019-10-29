@@ -7,6 +7,7 @@
 #include "ioc.h"
 #include "main.h"
 #include "usart.h"
+#include "tim.h"
 
 //Funcion que sirve para transmitir por el puerto serial
 HAL_StatusTypeDef HAL_UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
@@ -49,7 +50,6 @@ int ServicioLeer(int a,char* b,int t) {
     return t;
 }
 
-
 int ServicioEscribir(int a,char* b,int t) {
 	//Archivo donde se va escribir, es decir, el archivo del huart3
 	UART_HandleTypeDef* htmp = (UART_HandleTypeDef*)consola.harchivo;
@@ -62,7 +62,22 @@ int ServicioEscribir(int a,char* b,int t) {
 void ServicioTicks(uint32_t* ticks){
 	//Usando la funcion Hal_GetTick() que retorna la cantidad de ticks del sistema
 	//desde que comenzo. Se pasa el resultado por referencia.
-	*ticks = HAL_GetTick();
+	*ticks = HAL_GetTick()/1000;
+}
+
+void ServicioInitPWM(){
+	//Start PWM
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+}
+
+void ServicioPWMDutyCycle(uint16_t pulsos){
+	//Duty cycle
+	__HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_1, pulsos);
+}
+
+void ServicioStopPWM() {
+	//Stop PWM
+	HAL_TIM_PWM_Stop(&htim1, TIM_CHANNEL_1);
 }
 
 int Leer(int a,char* b,int t) {
@@ -75,7 +90,6 @@ int Leer(int a,char* b,int t) {
 	//Retorna la cantidad de caracteres leidos
 	return r;
 }
-
 
 int Escribir(int a,char* b,int t) {
 	//Guarda el valor de r0 (parametro a) en la variable r
@@ -97,6 +111,22 @@ void Ticks(uint32_t* ticks) {
 	__asm("mov r3,3;svc 0");
 	//En la variable ticks, por referencia, se retorna el valor de los ticks
 	*ticks = r;
+}
+
+void InitPWM(){
+	//Servicio 4 es el de iniciar el PWM
+	__asm("mov r3,4;svc 0");
+}
+
+void DutyCycle(uint16_t pulsos){
+	//Servicio 6 es el de cambiar el ancho del PWM
+	if(pulsos > htim1.Init.Period) pulsos = htim1.Init.Period;
+	__asm("mov r3,6;svc 0");
+}
+
+void StopPWM(){
+	//Servicio 5 es el de parar el PWM
+	__asm("mov r3,5;svc 0");
 }
 
 //Manejador de interrupcion del UART3

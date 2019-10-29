@@ -1,4 +1,4 @@
-Src/eth.o: ../Src/eth.c ../Inc/eth.h ../Inc/main.h \
+Src/tim.o: ../Src/tim.c ../Inc/tim.h ../Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal.h \
  ../Inc/stm32f7xx_hal_conf.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_rcc.h \
@@ -34,7 +34,7 @@ Src/eth.o: ../Src/eth.c ../Inc/eth.h ../Inc/main.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_ll_usb.h \
  ../Drivers/STM32F7xx_HAL_Driver/Inc/stm32f7xx_hal_pcd_ex.h
 
-../Inc/eth.h:
+../Inc/tim.h:
 
 ../Inc/main.h:
 
