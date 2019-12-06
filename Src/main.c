@@ -63,7 +63,6 @@ void SystemClock_Config(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 sem_t mutex;
-char buffer[15];
 /* USER CODE END 0 */
 
 /**
@@ -117,17 +116,17 @@ int main(void)
  		for (;;) {
  			LD2_GPIO_Port->BSRR = LD2_Pin;
  			LD3_GPIO_Port->BSRR = (uint32_t)LD3_Pin << 16;
- 			//sem_wait(&mutex);
+ 			sem_wait(&mutex);
  			Escribir(1, "Proceso 2\n\r", 11);
- 			//sem_post(&mutex);
+ 			sem_post(&mutex);
  		}
  	} else {
  		for (;;) {
  			LD2_GPIO_Port->BSRR = (uint32_t)LD2_Pin << 16;
  			LD3_GPIO_Port->BSRR = LD3_Pin;
- 			//sem_wait(&mutex);
+ 			sem_wait(&mutex);
  			Escribir(1, "Proceso 1\n\r", 11);
- 			//sem_post(&mutex);
+ 			sem_post(&mutex);
  		}
  	}
    }

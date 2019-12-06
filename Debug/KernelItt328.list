@@ -21,29 +21,29 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   8 .data         0000000c  20000000  08005c00  00020000  2**2
                   CONTENTS, ALLOC, LOAD, DATA
-  9 .bss          000009f0  2000000c  08005c0c  0002000c  2**2
+  9 .bss          000009e0  2000000c  08005c0c  0002000c  2**2
                   ALLOC
- 10 ._user_heap_stack 00000604  200009fc  08005c0c  000209fc  2**0
+ 10 ._user_heap_stack 00000604  200009ec  08005c0c  000209ec  2**0
                   ALLOC
  11 .ARM.attributes 0000002e  00000000  00000000  0002000c  2**0
                   CONTENTS, READONLY
- 12 .debug_info   0001605d  00000000  00000000  0002003a  2**0
+ 12 .debug_info   00016035  00000000  00000000  0002003a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_abbrev 000030c4  00000000  00000000  00036097  2**0
+ 13 .debug_abbrev 000030c4  00000000  00000000  0003606f  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_aranges 000012f8  00000000  00000000  00039160  2**3
+ 14 .debug_aranges 000012f8  00000000  00000000  00039138  2**3
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_ranges 00001150  00000000  00000000  0003a458  2**3
+ 15 .debug_ranges 00001150  00000000  00000000  0003a430  2**3
                   CONTENTS, READONLY, DEBUGGING
- 16 .debug_macro  00028f05  00000000  00000000  0003b5a8  2**0
+ 16 .debug_macro  00028f05  00000000  00000000  0003b580  2**0
                   CONTENTS, READONLY, DEBUGGING
- 17 .debug_line   0001092b  00000000  00000000  000644ad  2**0
+ 17 .debug_line   0001092b  00000000  00000000  00064485  2**0
                   CONTENTS, READONLY, DEBUGGING
- 18 .debug_str    000fd30e  00000000  00000000  00074dd8  2**0
+ 18 .debug_str    000fd30e  00000000  00000000  00074db0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 19 .comment      0000007b  00000000  00000000  001720e6  2**0
+ 19 .comment      0000007b  00000000  00000000  001720be  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00004e4c  00000000  00000000  00172164  2**2
+ 20 .debug_frame  00004e4c  00000000  00000000  0017213c  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -13017,7 +13017,7 @@ void InitConsola() {
  8004e58:	bf00      	nop
  8004e5a:	bd80      	pop	{r7, pc}
  8004e5c:	20000080 	.word	0x20000080
- 8004e60:	20000578 	.word	0x20000578
+ 8004e60:	20000568 	.word	0x20000568
  8004e64:	20000088 	.word	0x20000088
 
 08004e68 <ServicioEscribir>:
@@ -13129,7 +13129,7 @@ void USART3_IRQHandler(void) {
 }
  8004ef4:	bf00      	nop
  8004ef6:	bd80      	pop	{r7, pc}
- 8004ef8:	20000578 	.word	0x20000578
+ 8004ef8:	20000568 	.word	0x20000568
  8004efc:	20000080 	.word	0x20000080
 
 08004f00 <__NVIC_SetPriority>:
@@ -13552,7 +13552,7 @@ int fork(){
  80051ac:	4770      	bx	lr
  80051ae:	bf00      	nop
  80051b0:	20000028 	.word	0x20000028
- 80051b4:	200004ac 	.word	0x200004ac
+ 80051b4:	2000049c 	.word	0x2000049c
 
 080051b8 <sem_init>:
 
@@ -13866,9 +13866,9 @@ void SVC_Handler(void) {
  80053ac:	46bd      	mov	sp, r7
  80053ae:	bd90      	pop	{r4, r7, pc}
  80053b0:	2000002c 	.word	0x2000002c
- 80053b4:	200004ac 	.word	0x200004ac
- 80053b8:	200004a4 	.word	0x200004a4
- 80053bc:	200004a8 	.word	0x200004a8
+ 80053b4:	2000049c 	.word	0x2000049c
+ 80053b8:	20000494 	.word	0x20000494
+ 80053bc:	20000498 	.word	0x20000498
 
 080053c0 <SysTick_Handler>:
 
@@ -14183,9 +14183,9 @@ void SysTick_Handler(void) {
  80055d6:	bf00      	nop
  80055d8:	20000030 	.word	0x20000030
  80055dc:	2000002c 	.word	0x2000002c
- 80055e0:	200004a4 	.word	0x200004a4
+ 80055e0:	20000494 	.word	0x20000494
  80055e4:	20000028 	.word	0x20000028
- 80055e8:	200004ac 	.word	0x200004ac
+ 80055e8:	2000049c 	.word	0x2000049c
 
 080055ec <HAL_MspInit>:
 /* USER CODE END 0 */
@@ -14651,7 +14651,7 @@ void MX_TIM1_Init(void)
  800582e:	3768      	adds	r7, #104	; 0x68
  8005830:	46bd      	mov	sp, r7
  8005832:	bd80      	pop	{r7, pc}
- 8005834:	20000538 	.word	0x20000538
+ 8005834:	20000528 	.word	0x20000528
  8005838:	40010000 	.word	0x40010000
  800583c:	00017700 	.word	0x00017700
 
@@ -14840,7 +14840,7 @@ void MX_USART3_UART_Init(void)
  8005942:	bf00      	nop
  8005944:	bd80      	pop	{r7, pc}
  8005946:	bf00      	nop
- 8005948:	20000578 	.word	0x20000578
+ 8005948:	20000568 	.word	0x20000568
  800594c:	40004800 	.word	0x40004800
 
 08005950 <HAL_UART_MspInit>:
@@ -15006,7 +15006,7 @@ void MX_USB_OTG_FS_PCD_Init(void)
  8005a3a:	bf00      	nop
  8005a3c:	bd80      	pop	{r7, pc}
  8005a3e:	bf00      	nop
- 8005a40:	200005f8 	.word	0x200005f8
+ 8005a40:	200005e8 	.word	0x200005e8
 
 08005a44 <HAL_PCD_MspInit>:
 
@@ -15207,7 +15207,7 @@ LoopFillZerobss:
   ldr  r2, =_sbss
  8005b44:	2000000c 	.word	0x2000000c
   ldr  r3, = _ebss
- 8005b48:	200009fc 	.word	0x200009fc
+ 8005b48:	200009ec 	.word	0x200009ec
 
 08005b4c <ADC_IRQHandler>:
  * @retval None       
