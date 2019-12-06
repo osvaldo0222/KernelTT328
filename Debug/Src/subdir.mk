@@ -9,6 +9,7 @@ C_SRCS += \
 ../Src/ioc.c \
 ../Src/llamadasalsistema.c \
 ../Src/main.c \
+../Src/pcb.c \
 ../Src/stm32f7xx_hal_msp.c \
 ../Src/stm32f7xx_it.c \
 ../Src/syscalls.c \
@@ -24,6 +25,7 @@ OBJS += \
 ./Src/ioc.o \
 ./Src/llamadasalsistema.o \
 ./Src/main.o \
+./Src/pcb.o \
 ./Src/stm32f7xx_hal_msp.o \
 ./Src/stm32f7xx_it.o \
 ./Src/syscalls.o \
@@ -39,6 +41,7 @@ C_DEPS += \
 ./Src/ioc.d \
 ./Src/llamadasalsistema.d \
 ./Src/main.d \
+./Src/pcb.d \
 ./Src/stm32f7xx_hal_msp.d \
 ./Src/stm32f7xx_it.d \
 ./Src/syscalls.d \
@@ -60,6 +63,8 @@ Src/llamadasalsistema.o: ../Src/llamadasalsistema.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m7 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F767xx -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/llamadasalsistema.d" -MT"$@" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "$@"
 Src/main.o: ../Src/main.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m7 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F767xx -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"$@" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "$@"
+Src/pcb.o: ../Src/pcb.c
+	arm-none-eabi-gcc "$<" -mcpu=cortex-m7 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F767xx -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/pcb.d" -MT"$@" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "$@"
 Src/stm32f7xx_hal_msp.o: ../Src/stm32f7xx_hal_msp.c
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m7 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F767xx -DDEBUG -c -I../Inc -I../Drivers/CMSIS/Include -I../Drivers/CMSIS/Device/ST/STM32F7xx/Include -I../Drivers/STM32F7xx_HAL_Driver/Inc -I../Drivers/STM32F7xx_HAL_Driver/Inc/Legacy -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/stm32f7xx_hal_msp.d" -MT"$@" --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -o "$@"
 Src/stm32f7xx_it.o: ../Src/stm32f7xx_it.c

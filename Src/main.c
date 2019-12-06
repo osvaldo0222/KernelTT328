@@ -25,20 +25,13 @@
 #include "usart.h"
 #include "usb_otg.h"
 #include "gpio.h"
-#include <stdbool.h>
+#include "pcb.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 void InitConsola();
 int Leer(int a,char* b,int t);
 int Escribir(int a,char* b,int t);
-uint32_t Ticks();
-uint32_t leerNum();
-uint32_t numTicks();
-void InitPWM();
-void DutyCycle(uint16_t pulsos);
-void StopPWM();
-char* itoa(int, char*, int);
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -69,33 +62,8 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint32_t leerNum(){
-	char aux;
-	uint32_t num = 0;
-	//Loop mientras no se digite un enter
-	while(aux != 13){
-		//Siempre que se lea algo del buffer
-		if(Leer(1, &aux, 1) != 0) {
-			//Mediente codigo ascii, viendo si los caracteres recibidos son numeros
-			if (aux > 47 && aux < 58) {
-				//Agregando cada caracteres al numero
-				num = (num * 10) + (aux - '0');
-				//Escribiendo los caracteres
-				Escribir(1, &aux, 1);
-			}
-		}
-	}
-	//retorna el numero leido
-	return num;
-}
-
-uint32_t numTicks(){
-	uint32_t ticks = 0;
-	//Llamada al sistema para obtener los ticks
-	Ticks(&ticks);
-	//Retorno el numero de ticks
-	return ticks;
-}
+sem_t mutex;
+char buffer[15];
 /* USER CODE END 0 */
 
 /**
@@ -107,7 +75,7 @@ int main(void)
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
-  
+
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -131,67 +99,38 @@ int main(void)
   MX_USB_OTG_FS_PCD_Init();
   MX_USART3_UART_Init();
   MX_TIM1_Init();
-  /* USER CODE BEGIN 2 */
-
-
- /* //Iniciando consola
+  SysTick_Config(SystemCoreClock * 0.1);
   InitConsola();
-  //Algunos mensajes de inicio del kernel
-  Escribir(1, "Iniciando el Kernel\n\r", 21);
-  Escribir(1, "Itt328 version Beta 1.0.0\n\r", 27);
-  Escribir(1, "Relizado por Osvaldo\n\r", 22);
-
-  //Pedir dos numeros al usuario
-  Escribir(1, "Digite el primer numero: ", 25);
-  uint32_t num1 = leerNum();
-  Escribir(1, "\n\rDigite el segundo numero: ", 28);
-  uint32_t num2 = leerNum();
-  uint32_t result = num1 + num2;
-  char x[10];
-  //Convirtiendo entero a arreglo de char con itoa()
-  itoa(result, x, 10);
-  Escribir(1, "\n\rLa suma es: ", 14);
-  Escribir(1, x, sizeof(result)/sizeof(char));
-
-  //Haciendo llamada al sistema para obtener los ticks
-  char ticks[10];
-  uint32_t numberOfTicks = Ticks();
-  itoa(numberOfTicks, ticks, 10);
-  Escribir(1, "\n\rLa cantidad de ticks es: ", 27);
-  Escribir(1, ticks, sizeof(numberOfTicks)/sizeof(char));*/
-  InitPWM();
-  uint16_t pulse = 100;
-  bool pressed = false;
-  bool flag = false;
+  /* USER CODE BEGIN 2 */
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1) {
-	  GPIO_PinState userButton = HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13);
-	  if (userButton && !pressed) {
-		  pressed = true;
-		  DutyCycle(pulse);
-		  if (flag) {
-	  		pulse -= 100;
-	  	  } else {
-	  		pulse += 100;
-	  	  }
-      }
+  int child;
+  sem_init(&mutex, 1);
+   while (1) {
+     /* USER CODE END WHILE */
 
-  	  if (pulse >= htim1.Init.Period) {
- 		flag = true;
-	  } else if(pulse <= 0){
-		flag = false;
-	  }
-
-	  if (!userButton) {
-		 pressed = false;
-	  }
-    /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
-  }
+     /* USER CODE BEGIN 3 */
+ 	child = fork();
+ 	if (child == 0) {
+ 		for (;;) {
+ 			LD2_GPIO_Port->BSRR = LD2_Pin;
+ 			LD3_GPIO_Port->BSRR = (uint32_t)LD3_Pin << 16;
+ 			//sem_wait(&mutex);
+ 			Escribir(1, "Proceso 2\n\r", 11);
+ 			//sem_post(&mutex);
+ 		}
+ 	} else {
+ 		for (;;) {
+ 			LD2_GPIO_Port->BSRR = (uint32_t)LD2_Pin << 16;
+ 			LD3_GPIO_Port->BSRR = LD3_Pin;
+ 			//sem_wait(&mutex);
+ 			Escribir(1, "Proceso 1\n\r", 11);
+ 			//sem_post(&mutex);
+ 		}
+ 	}
+   }
   /* USER CODE END 3 */
 }
 
@@ -205,14 +144,14 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
 
-  /** Configure LSE Drive Capability 
+  /** Configure LSE Drive Capability
   */
   HAL_PWR_EnableBkUpAccess();
-  /** Configure the main internal regulator output voltage 
+  /** Configure the main internal regulator output voltage
   */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB busses clocks
   */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_BYPASS;
@@ -226,13 +165,13 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  /** Activate the Over-Drive mode 
+  /** Activate the Over-Drive mode
   */
   if (HAL_PWREx_EnableOverDrive() != HAL_OK)
   {
     Error_Handler();
   }
-  /** Initializes the CPU, AHB and APB busses clocks 
+  /** Initializes the CPU, AHB and APB busses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
@@ -279,7 +218,7 @@ void Error_Handler(void)
   * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
-{ 
+{
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */

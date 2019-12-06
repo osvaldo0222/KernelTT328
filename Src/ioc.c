@@ -86,7 +86,7 @@ int Leer(int a,char* b,int t) {
 	//Ejecuta codigo ensamblador en C.
 	//mov r3, 1 mueve un 1 a r3, que indica el servicio a consumir
 	//svc 0 indica que se quiere realizar un interrupcion por software, lo cual es atendida por SVC_Handler
-	__asm("mov r3,1;svc 0");
+	__asm("mov r3,5;svc 0");
 	//Retorna la cantidad de caracteres leidos
 	return r;
 }
@@ -97,7 +97,7 @@ int Escribir(int a,char* b,int t) {
 	//Ejecuta codigo ensamblador en C.
 	//mov r3, 2 mueve un 2 a r3, que indica el servicio a consumir
 	//svc 0 indica que se quiere realizar un interrupcion por software, lo cual es atendida por SVC_Handler
-	__asm("mov r3,2;svc 0");
+	__asm("mov r3,6;svc 0");
 	//Retorna la cantidad de caracteres escritos
 	return r;
 }

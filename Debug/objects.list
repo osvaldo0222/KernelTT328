@@ -25,6 +25,7 @@
 "Src/ioc.o"
 "Src/llamadasalsistema.o"
 "Src/main.o"
+"Src/pcb.o"
 "Src/stm32f7xx_hal_msp.o"
 "Src/stm32f7xx_it.o"
 "Src/syscalls.o"

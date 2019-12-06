@@ -1,0 +1,14 @@
+ioc.c:23:6:InitConsola	16	static
+ioc.c:39:5:ServicioLeer	12	static
+ioc.c:53:5:ServicioEscribir	8	static
+ioc.c:62:6:ServicioTicks	8	static
+ioc.c:68:6:ServicioInitPWM	0	static
+ioc.c:73:6:ServicioPWMDutyCycle	0	static
+ioc.c:78:6:ServicioStopPWM	0	static
+ioc.c:83:5:Leer	0	static,ignoring_inline_asm
+ioc.c:94:5:Escribir	0	static,ignoring_inline_asm
+ioc.c:105:6:Ticks	0	static,ignoring_inline_asm
+ioc.c:116:6:InitPWM	0	static,ignoring_inline_asm
+ioc.c:121:6:DutyCycle	0	static,ignoring_inline_asm
+ioc.c:127:6:StopPWM	0	static,ignoring_inline_asm
+ioc.c:133:6:USART3_IRQHandler	16	static

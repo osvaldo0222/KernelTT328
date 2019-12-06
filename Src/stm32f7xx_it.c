@@ -138,34 +138,6 @@ void UsageFault_Handler(void)
 }
 
 /**
-  * @brief This function handles System service call via SWI instruction.
-  */
-void SVC_Handler(void)
-{
-  /* USER CODE BEGIN SVCall_IRQn 0 */
-	register int p1 asm("r0");
-	//Lo que se quiere escribir el puerto serial
-	register int p2 asm("r1");
-	//Tamaño de lo que se quiere escribir en el puerto
-	register int p3 asm("r2");
-	//Servicio que se quiere consumir
-	register int p4 asm("r3");
-	//Testeando el registro de retorno LR contra el operador #4
-	__asm("TST lr, #4");
-	//Carga el valor del registro especifico MSP (Stack Pointer) a un registro general R0
-	__asm("MRS r0, MSP;");
-	int* Parametros=(int*)p1;
-	p1=Parametros[4];
-	//LLamando al sistema
-	LlamadaSistema(p1, p2, p3, p4);
-	Parametros[4]=p1;
-  /* USER CODE END SVCall_IRQn 0 */
-  /* USER CODE BEGIN SVCall_IRQn 1 */
-
-  /* USER CODE END SVCall_IRQn 1 */
-}
-
-/**
   * @brief This function handles Debug monitor.
   */
 void DebugMon_Handler(void)
@@ -189,20 +161,6 @@ void PendSV_Handler(void)
   /* USER CODE BEGIN PendSV_IRQn 1 */
 
   /* USER CODE END PendSV_IRQn 1 */
-}
-
-/**
-  * @brief This function handles System tick timer.
-  */
-void SysTick_Handler(void)
-{
-  /* USER CODE BEGIN SysTick_IRQn 0 */
-
-  /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
-  /* USER CODE BEGIN SysTick_IRQn 1 */
-
-  /* USER CODE END SysTick_IRQn 1 */
 }
 
 /******************************************************************************/
